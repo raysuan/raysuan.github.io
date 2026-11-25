@@ -6,7 +6,7 @@ subtitle:
 
 profile:
   align: right
-  image: xinyu-profile.svg
+  image: profile.jpg
   image_circular: false
   more_info: >
     <p>Purdue ECE</p>
