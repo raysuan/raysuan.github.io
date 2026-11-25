@@ -1,0 +1,67 @@
+name: Deploy academic website
+permissions:
+  contents: read
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v6
+    - name: Initialize website source from reviewed archive
+      if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && hashFiles('site-source.zip') != ''
+      run: "python3 - <<'PYBOOTSTRAP'\nfrom pathlib import Path, PurePosixPath\nimport hashlib, stat, zipfile\narchive = Path('site-source.zip')\n\
+        expected = 'f8180f1826968ff923f51bcac4a785e92e366bd6bc4c1768e0f972f966c50c31'\nassert hashlib.sha256(archive.read_bytes()).hexdigest()\
+        \ == expected, 'Archive checksum mismatch'\nroot = Path.cwd().resolve()\nwith zipfile.ZipFile(archive) as source:\n\
+        \    assert len(source.infolist()) < 500, 'Unexpected archive size'\n    assert sum(i.file_size for i in source.infolist())\
+        \ < 30_000_000, 'Unexpected uncompressed size'\n    for item in source.infolist():\n        path = PurePosixPath(item.filename)\n\
+        \        assert not path.is_absolute() and '..' not in path.parts, 'Unsafe archive path'\n        assert path.parts[0]\
+        \ == 'raysuan.github.io', 'Unexpected archive prefix'\n        assert not stat.S_ISLNK(item.external_attr >> 16),\
+        \ 'Symlinks are not allowed'\n        relative = PurePosixPath(*path.parts[1:])\n        if item.is_dir() or not relative.parts\
+        \ or relative.parts[0] in ('.github', '.git'):\n            continue\n        target = root.joinpath(*relative.parts)\n\
+        \        assert target.resolve().is_relative_to(root), 'Unsafe target path'\n        target.parent.mkdir(parents=True,\
+        \ exist_ok=True)\n        target.write_bytes(source.read(item))\narchive.unlink()\nPYBOOTSTRAP\ngit config user.name\
+        \ 'github-actions[bot]'\ngit config user.email '41898282+github-actions[bot]@users.noreply.github.com'\ngit add -A\
+        \ -- . ':!.github'\ngit commit -m \"Initialize personalized academic website\"\ngit push origin HEAD:main\n"
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.3'
+        bundler-cache: true
+    - name: Build Jekyll website
+      env:
+        JEKYLL_ENV: production
+      run: bundle exec jekyll build --trace
+    - name: Check generated pages and links
+      run: python3 scripts/check_site.py
+    - name: Upload Pages artifact
+      if: github.event_name != 'pull_request'
+      uses: actions/upload-pages-artifact@v4
+      with:
+        path: _site
+    permissions:
+      contents: write
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+'on':
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+  workflow_dispatch: null
