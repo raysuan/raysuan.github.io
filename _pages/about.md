@@ -7,7 +7,7 @@ subtitle:
 profile:
   align: right
   image: profile.jpg
-  image_circular: false
+  image_circular: true
   more_info: >
     <p>Purdue ECE</p>
     <p>West Lafayette, Indiana</p>
