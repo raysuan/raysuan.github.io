@@ -1,0 +1,47 @@
+- title: Education
+  type: time_table
+  contents:
+    - title: Ph.D. in Electrical and Computer Engineering
+      institution: Purdue University
+      year: 2025–Present
+      description:
+        - "Advisor: Prof. Xiaoqi (Danny) Chen"
+    - title: B.S. in Computer Science and Statistics
+      institution: University of Illinois Urbana-Champaign
+      year: 2021–2025
+
+- title: Research Experience
+  type: time_table
+  contents:
+    - title: Graduate Research Assistant
+      institution: Purdue University
+      year: 2025–Present
+      description:
+        - Research in computer systems, networking, and in-network machine learning.
+        - Program and evaluate switches and DPUs using P4 and eBPF.
+        - Study efficient ML inference and code generation for programmable networks.
+    - title: Undergraduate Research
+      institution: University of Illinois Urbana-Champaign
+      description:
+        - Efficient model adaptation for learning-based systems with Prof. Fan Lai.
+        - Reinforcement learning for wireless network scheduling with Prof. Klara Nahrstedt.
+
+- title: Research Interests
+  type: nested_list
+  contents:
+    - title: Computer systems and networking
+      items:
+        - Programmable networks and in-network computation
+        - High-speed network monitoring and intrusion detection
+        - Switches, DPUs, and hardware-aware system design
+    - title: Machine learning systems
+      items:
+        - Efficient model adaptation and inference
+        - Machine learning for network resource management
+        - Code generation for programmable hardware
+
+- title: Technical Experience
+  type: list
+  contents:
+    - "Programming: Python, C++, P4, and eBPF"
+    - "Platforms and tools: Linux, NVIDIA BlueField DPUs, Tofino switches, and Mininet-WiFi"

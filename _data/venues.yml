@@ -1,0 +1,15 @@
+"SIGCOMM":
+  url: https://conferences.sigcomm.org/sigcomm/2026/
+  color: "#b509ac"
+
+"MILCOM":
+  url: https://doi.org/10.1109/MILCOM64451.2025.11310426
+  color: "#b509ac"
+
+"CoNEXT-SW":
+  url: https://doi.org/10.1145/3694812.3699932
+  color: "#b509ac"
+
+"ICSME":
+  url: https://conf.researchr.org/home/icsme-2024
+  color: "#b509ac"
