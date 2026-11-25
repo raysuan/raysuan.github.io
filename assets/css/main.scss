@@ -23,3 +23,11 @@ $max-content-width: {{ site.max_width }};
   "tabler-icons/tabler-icons-filled.scss",
   "tabler-icons/tabler-icons-outline.scss"
 ;
+
+// Display the landscape portrait as a closer, square crop inside the circle.
+.profile img.rounded-circle {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: 15% 50%;
+}
