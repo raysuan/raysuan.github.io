@@ -26,6 +26,15 @@
         - Efficient model adaptation for learning-based systems with Prof. Fan Lai.
         - Reinforcement learning for wireless network scheduling with Prof. Klara Nahrstedt.
 
+- title: Honors and Awards
+  type: time_table
+  contents:
+    - title: Student Travel Grant
+      institution: ACM SIGCOMM 2026
+      year: 2026
+      description:
+        - Travel support to attend ACM SIGCOMM 2026 in Denver, Colorado.
+
 - title: Research Interests
   type: nested_list
   contents:
